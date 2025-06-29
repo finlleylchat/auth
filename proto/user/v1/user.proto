@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+package user;
+
+option go_package = "github.com/finlleylchat/auth/proto/user/v1";
+
+service UserService {
+    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Get(GetRequest) returns (GetResponse);
+    rpc Update(UpdateRequest) returns (UpdateResponse);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+}
+
+enum UserRole {
+    USER_ROLE_UNSPECIFIED = 0;
+    USER_ROLE_USER = 1;
+    USER_ROLE_ADMIN = 2;
+}
+
+message CreateRequest {
+    string name = 1;
+    string email = 2;
+    string password = 3;
+    string password_confirm = 4;
+    UserRole role = 5;
+}
+
+message CreateResponse {
+    int64 user_id = 1;
+}
+
+message GetRequest {
+    int64 user_id = 1;
+}
+
+message GetResponse {
+    int64 user_id = 1;
+    string name = 2;
+    string email = 3;
+    UserRole role = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+}
+
+message UpdateRequest {
+    int64 user_id = 1;
+    google.protobuf.StringValue name = 2;
+    google.protobuf.StringValue email = 3;
+}
+
+message UpdateResponse {}
+
+message DeleteRequest {
+    int64 user_id = 1;
+}
+
+message DeleteResponse {}

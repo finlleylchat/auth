@@ -121,7 +121,8 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v6
         with:
-          version: v1.61
+          version: v1.64.8
+          install-mode: source
           args: --timeout=30m --config=./.golangci.pipeline.yaml
           only-new-issues: true
 

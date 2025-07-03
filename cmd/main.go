@@ -1,7 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/fatih/color"
 	"go.uber.org/fx"
@@ -10,8 +14,22 @@ import (
 )
 
 func main() {
-	fx.New(
-		fx.Provide(module.NewConfig()),
-	).Run()
-	fmt.Println(color.GreenString("Hello, world!"))
+	app := fx.New(
+		fx.Provide(
+			module.NewLogger,
+			module.NewConfig,
+		),
+		fx.Invoke(module.StartServer),
+	)
+
+	// Graceful shutdown
+	go func() {
+		sigChan := make(chan os.Signal, 1)
+		signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+		<-sigChan
+		fmt.Println(color.YellowString("\nShutting down gracefully..."))
+		app.Stop(context.Background())
+	}()
+
+	app.Run()
 }

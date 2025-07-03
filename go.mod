@@ -10,6 +10,7 @@ require (
 
 require (
 	github.com/go-viper/mapstructure/v2 v2.3.0 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/knadh/koanf/maps v0.1.2 // indirect
 	github.com/knadh/koanf/providers/env/v2 v2.0.0 // indirect
 	github.com/knadh/koanf/v2 v2.2.1 // indirect
